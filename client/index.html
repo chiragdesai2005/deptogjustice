@@ -1,0 +1,67 @@
+<!doctype html>
+<html ng-app="fileUpload">
+
+<head>
+    <script src="./node_modules/angular/angular.min.js"></script>
+    <script src="scripts.js"></script>
+    <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+    <script type="text/javascript" src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body filters="queueLimit, customFilter">
+    <div ng-controller="FileControllerCtrl" class="container">
+        <div class="form-group" ng-init="clearView();">
+            <h3>
+                <center> File Upload Demo </center>
+            </h3>
+            <ul class="nav nav-pills">
+                <li><a href="#" ng-click="uploadFile()">Upload File</a></li>
+                <li><a href="#" ng-click="getAllFiles()">View Files</a></li>
+            </ul>
+            <br/>
+            <div ng-if="uploadfile">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Upload File</div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="file">File:</label>
+                                <input type="file" ngf-select ng-model="up.file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB"
+                                /> Image thumbnail: <img style="width:100px;" ng-show="!!up.file" ngf-thumbnail="up.file || '/thumb.jpg'"/>
+<i ng-show="up.upload_form.file.$error.required">*required</i><br>
+<i ng-show="up.upload_form.file.$error.maxSize">File too large 
+            {{up.file.size / 1000000|number:1}}MB: max 20M</i>
+</div>
+<button type="submit" class="btn btn-primary" ng-click="submitForm();">Submit</button>
+</div>
+</div>
+</div>
+<div ng-show="displayFiles">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>SR No.</th>
+                <th>File Name</th>
+                <th>Upload Date</th>
+                <th>Size</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="data in fileData">
+                <td>{{$index+1}}</td>
+                <td>{{data.Key}}</td>
+                <td>{{data.LastModified}}</td>
+                <td>{{data.Size}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+</body>
+
+</html>
